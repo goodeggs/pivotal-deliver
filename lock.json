@@ -1,0 +1,13 @@
+{
+    "memo": "c37596749b7e00221e9c0b3e0ba84980e49250fa577c6e438447beff447ef2d0",
+    "projects": [
+        {
+            "name": "github.com/deckarep/golang-set",
+            "version": "v1.6",
+            "revision": "fc8930a5e645572ee00bf66358ed3414f3c13b90",
+            "packages": [
+                "."
+            ]
+        }
+    ]
+}
