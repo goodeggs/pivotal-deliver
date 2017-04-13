@@ -27,9 +27,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	projectID, err := strconv.Atoi(os.Getenv("PIVOTAL_PROJECT"))
+	projectID, err := strconv.Atoi(os.Getenv("PIVOTAL_PROJECT_ID"))
 	if err != nil {
-		fmt.Println("You must provide $PIVOTAL_PROJECT")
+		fmt.Println("You must provide $PIVOTAL_PROJECT_ID")
 		os.Exit(1)
 	}
 

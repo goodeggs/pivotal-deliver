@@ -8,6 +8,8 @@ Usage
 We originally built this to scan git logs for Pivotal story ids and mark those stories delivered:
 
 ```
+$ export PIVOTAL_TOKEN="abcdef"
+$ export PIVOTAL_PROJECT_ID="123456"
 $ git log --format=full HEAD^..HEAD | pivotal-deliver
 ```
 
