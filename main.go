@@ -10,9 +10,16 @@ import (
 	"strconv"
 )
 
+var VERSION = "dev"
+
 var storyMatcher = regexp.MustCompile("#(\\d{8,12})")
 
 func main() {
+
+	if len(os.Args) > 1 && (os.Args[1] == "-v" || os.Args[1] == "--version") {
+		fmt.Println(VERSION)
+		os.Exit(0)
+	}
 
 	var token = os.Getenv("PIVOTAL_TOKEN")
 	if token == "" {

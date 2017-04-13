@@ -19,4 +19,8 @@ echo "$out" | grep -q 4444 && die "test 6"
 echo "$out" | grep -q 143629003 || die "test 7"
 echo "$out" | grep -q "Error fetching stories from Pivotal" || die "test 8"
 
+out=$(pivotal-deliver -v)
+[ $? -eq 0 ] || die "test 9"
+[ "$out" = "dev" ] || die "test 10"
+
 echo "PASS"
