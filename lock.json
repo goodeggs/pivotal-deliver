@@ -1,5 +1,5 @@
 {
-    "memo": "c37596749b7e00221e9c0b3e0ba84980e49250fa577c6e438447beff447ef2d0",
+    "memo": "0c6e523d43bc543d79e03e869655119524a5e4317cc712ba94c83bd79e8e7bef",
     "projects": [
         {
             "name": "github.com/deckarep/golang-set",
@@ -7,6 +7,14 @@
             "revision": "fc8930a5e645572ee00bf66358ed3414f3c13b90",
             "packages": [
                 "."
+            ]
+        },
+        {
+            "name": "gopkg.in/salsita/go-pivotaltracker.v1",
+            "version": "v1.4.0",
+            "revision": "46083f60193ab53b18d2ffe64d298127652b39ac",
+            "packages": [
+                "v5/pivotal"
             ]
         }
     ]

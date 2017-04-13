@@ -4,14 +4,28 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/deckarep/golang-set"
+	"gopkg.in/salsita/go-pivotaltracker.v1/v5/pivotal"
 	"os"
 	"regexp"
-	"strings"
+	"strconv"
 )
 
 var storyMatcher = regexp.MustCompile("#(\\d{8,12})")
 
 func main() {
+
+	var token = os.Getenv("PIVOTAL_TOKEN")
+	if token == "" {
+		fmt.Println("You must provide $PIVOTAL_TOKEN")
+		os.Exit(1)
+	}
+
+	projectID, err := strconv.Atoi(os.Getenv("PIVOTAL_PROJECT"))
+	if err != nil {
+		fmt.Println("You must provide $PIVOTAL_PROJECT")
+		os.Exit(1)
+	}
+
 	set := mapset.NewSet()
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
@@ -20,10 +34,33 @@ func main() {
 			set.Add(val[1])
 		}
 	}
-	slice := set.ToSlice()
-	storyIDs := make([]string, len(slice))
-	for i, storyID := range slice {
-		storyIDs[i] = storyID.(string)
+
+	fmt.Printf("Parsed story IDs:")
+	for storyID := range set.Iterator().C {
+		fmt.Printf(" %s", storyID.(string))
 	}
-	fmt.Printf("Parsed story IDs: %s\n", strings.Join(storyIDs, " "))
+	fmt.Println()
+
+	client := pivotal.NewClient(token)
+	stories, err := client.Stories.List(projectID, "state:finished story_type:feature,bug,chore")
+	if err != nil {
+		fmt.Printf("Error fetching stories from Pivotal: %q\n", err)
+		os.Exit(1)
+	}
+
+	for _, story := range stories {
+		if set.Contains(strconv.Itoa(story.Id)) {
+			comment := &pivotal.Comment{
+				Text: "Auto-delivered by pivotal-deliver.",
+			}
+			client.Stories.AddComment(projectID, story.Id, comment)
+
+			req := &pivotal.StoryRequest{
+				State: "delivered",
+			}
+			client.Stories.Update(projectID, story.Id, req)
+
+			fmt.Printf("Delivered %d\n", story.Id)
+		}
+	}
 }
