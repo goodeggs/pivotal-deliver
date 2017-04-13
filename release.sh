@@ -6,7 +6,7 @@ indent() {
   sed -u 's/^/       /'
 }
 
-version=$(cat ../../VERSION)
+version=$(cat VERSION)
 
 make test
 
